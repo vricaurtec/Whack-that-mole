@@ -1,30 +1,35 @@
 body {
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  background-color: aquamarine;
   text-align: center;
+  background-image: url("garden/garden\ \(1\).png");
+  background-size: cover;
 }
 
 .game-container {
+  width: 400px;
+  height: 400px;
+  background-image: url("soil/soil.png");
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-  background-color: chartreuse;
+  flex-wrap: wrap;
+  border-radius: 25px;
 }
 
 .holes {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  width: 306px;
-  margin: 50px auto;
+  width: 400px;
+  justify-content: space-around;
+  margin-top: 50px;
+  background-size: cover;
 }
 .hole {
-  width: 100px;
-  height: 50px;
-  background-color: #7b4a4a;
-  border: 2px solid aquamarine;
-  margin: 0px;
+  display: flex;
+  width: 120px;
+  height: 110px;
+  background-image: url("dirthole.png/dirthole.png");
+  background-size: cover;
+  margin: 2px;
   cursor: pointer;
 }
 
@@ -54,4 +59,24 @@ body {
 
 .game-button:hover {
   background-color: #0056b3;
+}
+
+.mole {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  display: none;
+}
+.potato {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  display: none;
+}
+
+.carrot {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  display: none;
 }
