@@ -1,4 +1,7 @@
-h1 {
+body {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  background-color: aquamarine;
+  text-align: center;
 }
 
 .game-container {
@@ -6,6 +9,49 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 50vh;
   background-color: chartreuse;
+}
+
+.holes {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  width: 306px;
+  margin: 50px auto;
+}
+.hole {
+  width: 100px;
+  height: 50px;
+  background-color: #7b4a4a;
+  border: 2px solid aquamarine;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.score-timer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#score {
+  font-size: 20px;
+  margin: 5px;
+}
+
+#timer {
+  font-size: 20px;
+  margin: 5px;
+}
+
+.game-button {
+  background-color: black;
+  color: aliceblue;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.game-button:hover {
+  background-color: #0056b3;
 }
