@@ -2,9 +2,9 @@ let score = 0;
 let timeLeft = 60;
 let gameTimer;
 let isGameRunning = false;
-let moleSpeed = 1500; // Initial speed (1.5 seconds)
+let moleSpeed = 1300; // Initial speed (1.5 seconds)
 const maxMoleSpeed = 500; // Fastest speed (0.5 seconds)
-const speedDecreaseInterval = 10; // Decrease speed every 10 seconds
+const speedDecreaseInterval = 12; // Decrease speed every 10 seconds
 const speedDecreaseAmount = 100; // Speed decreases by 100 milliseconds
 
 document.getElementById("start-button").addEventListener("click", startGame);
@@ -122,4 +122,4 @@ function decreaseMoleSpeed() {
 }
 
 // Start button is initially visible
-document.getElementById("end-button").style.display = "none";
+document.getElementById("end-button").style.display = "block";
