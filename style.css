@@ -61,7 +61,7 @@ body {
   background-color: #0056b3;
 }
 
-.mole {
+/* .mole {
   width: 80px;
   height: 80px;
   cursor: pointer;
@@ -79,4 +79,13 @@ body {
   height: 80px;
   cursor: pointer;
   display: none;
+} */
+
+.mole,
+.potato,
+.carrot {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transition: all 0.5s;
 }

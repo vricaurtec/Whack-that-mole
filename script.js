@@ -1,223 +1,125 @@
-// const startButton = document.getElementById("start-button");
-// const endButton = document.getElementById("end-button");
-// const scoreDisplay = document.getElementById("score");
-// const timerDisplay = document.getElementById("timer");
-// let score = 0;
-// let timer = 60;
-// let timerInterval;
+let score = 0;
+let timeLeft = 60;
+let gameTimer;
+let isGameRunning = false;
+let moleSpeed = 1500; // Initial speed (1.5 seconds)
+const maxMoleSpeed = 500; // Fastest speed (0.5 seconds)
+const speedDecreaseInterval = 10; // Decrease speed every 10 seconds
+const speedDecreaseAmount = 100; // Speed decreases by 100 milliseconds
 
-// let moles, potatoes, carrots;
+document.getElementById("start-button").addEventListener("click", startGame);
+document.getElementById("end-button").addEventListener("click", endGame);
 
-// const molesAppearanceProbability = 0.4;
-// const potatoesAppearanceProbability = 0.3;
-// const carrotsAppearanceProbability = 0.3;
-// // Add event listener for the start button
-// startButton.addEventListener("click", startGame);
+function startGame() {
+  if (!isGameRunning) {
+    isGameRunning = true;
+    document.getElementById("start-button").disabled = true;
+    document.getElementById("end-button").style.display = "block";
 
-// function startGame() {
-//   score = 0;
-//   scoreDisplay.textContent = "Score: " + score;
-//   timer = 60;
-//   timerDisplay.textContent = "Time: " + timer;
+    gameTimer = setInterval(updateTimer, 1000);
+    gameLoop(); // Start the game loop for continuous appearance and disappearance
 
-//   // Clear any existing intervals
-//   clearInterval(timerInterval);
-
-//   // Start the timer interval
-//   timerInterval = setInterval(decreaseTimer, 1000);
-
-//   gameLoop();
-// }
-
-// function decreaseTimer() {
-//   timer--;
-//   if (timer < 0) {
-//     timer = 0;
-//   }
-//   timerDisplay.textContent = "Time: " + timer;
-//   if (timer === 0) {
-//     gameOver();
-//   }
-// }
-
-// function gameLoop() {
-//   moles = document.querySelectorAll(".mole");
-//   potatoes = document.querySelectorAll(".potato");
-//   carrots = document.querySelectorAll(".carrot");
-
-//   //   updateGameElements();
-//   //   requestAnimationFrame(gameLoop);
-
-//   // function updateGameElements() {
-
-//   moles.forEach(function (mole) {
-//     mole.addEventListener("click", function () {
-//       if (mole.style.display === "block") {
-//         score += 5;
-//         scoreDisplay.textContent = "Score: " + score;
-//         mole.style.display = "none";
-//       }
-//     });
-//   });
-// }
-
-// [potatoes, carrots].forEach(function (elements) {
-//   elements.forEach(function (element) {
-//     element.addEventListener("click", function () {
-//       if (element.style.display === "block") {
-//         timer -= 3; // Decrease the timer by 3 seconds when a potato or carrot is clicked
-//         if (timer < 0) {
-//           timer = 0;
-//         }
-//         timerDisplay.textContent = "Time: " + timer;
-//         element.style.display = "none";
-//       }
-//     });
-//   });
-// });
-
-// updateGameElements();
-
-// if (timer === 0) {
-//   gameOver();
-// }
-// requestAnimationFrame(gameLoop);
-
-// function updateGameElements() {
-//   moles.forEach(function (mole) {
-//     if (Math.random() < molesAppearanceProbability) {
-//       mole.style.display = "block"; // Show the mole
-//     } else {
-//       mole.style.display = "none"; // Hide the mole
-//     }
-//   });
-
-//   potatoes.forEach(function (potato) {
-//     if (Math.random() < potatoesAppearanceProbability) {
-//       potato.style.display = "block"; // Show the potato
-//     } else {
-//       potato.style.display = "none"; // Hide the potato
-//     }
-//   });
-// }
-
-// carrots.forEach(function (carrot) {
-//   if (Math.random() < carrotsAppearanceProbability) {
-//     carrot.style.display = "block"; // Show the carrot
-//   } else {
-//     carrot.style.display = "none"; // Hide the carrot
-//   }
-// });
-
-// function gameOver() {
-//   alert("Game Over! Final score is " + score);
-// }
-document.addEventListener("DOMContentLoaded", function () {
-  const startButton = document.getElementById("start-button");
-  const endButton = document.getElementById("end-button");
-  const scoreDisplay = document.getElementById("score");
-  const timerDisplay = document.getElementById("timer");
-  let score = 0;
-  let timer = 60;
-  let timerInterval;
-
-  let moles, potatoes, carrots;
-
-  const molesAppearanceProbability = 0.4;
-  const potatoesAppearanceProbability = 0.3;
-  const carrotsAppearanceProbability = 0.3;
-
-  // Add event listener for the start button
-  startButton.addEventListener("click", startGame);
-
-  function startGame() {
-    score = 0;
-    scoreDisplay.textContent = "Score: " + score;
-    timer = 60;
-    timerDisplay.textContent = "Time: " + timer;
-
-    // Clear any existing intervals
-    clearInterval(timerInterval);
-
-    // Start the timer interval
-    timerInterval = setInterval(decreaseTimer, 1000);
-
-    gameLoop();
+    decreaseMoleSpeed(); // Start decreasing mole speed over time
   }
+}
 
-  function decreaseTimer() {
-    timer--;
-    if (timer < 0) {
-      timer = 0;
+function updateTimer() {
+  timeLeft--;
+  document.getElementById("timer").textContent =
+    "Time: " + timeLeft + " seconds";
+
+  if (timeLeft <= 0) {
+    endGame();
+  }
+}
+
+function endGame() {
+  clearInterval(gameTimer);
+  isGameRunning = false;
+  document.getElementById("start-button").disabled = false;
+  document.getElementById("end-button").style.display = "none";
+
+  document.getElementById("score").textContent = "Score: " + score;
+
+  alert("Game over! Final score is " + score);
+
+  score = 0;
+  timeLeft = 60;
+  document.getElementById("timer").textContent =
+    "Time: " + timeLeft + " seconds";
+}
+
+function createRandomTarget() {
+  const targets = ["mole", "carrot", "potato"];
+  const randomIndex = Math.floor(Math.random() * targets.length);
+  return targets[randomIndex];
+}
+
+function createRandomHoles() {
+  const moleHoles = document.querySelectorAll(".hole");
+  moleHoles.forEach((hole) => {
+    hole.textContent = ""; // Clear previous contents
+
+    const target = createRandomTarget();
+    const targetImage = document.createElement("img");
+
+    // Set the image source based on the target type
+    switch (target) {
+      case "mole":
+        targetImage.src = "mole.png/mole.png";
+        break;
+      case "potato":
+        targetImage.src = "potato/potato (1).png";
+        break;
+      case "carrot":
+        targetImage.src = "carrot/carrot.png";
+        break;
     }
-    timerDisplay.textContent = "Time: " + timer;
-    if (timer === 0) {
-      gameOver();
-    }
-  }
 
-  function gameLoop() {
-    moles = document.querySelectorAll(".mole");
-    potatoes = document.querySelectorAll(".potato");
-    carrots = document.querySelectorAll(".carrot");
+    targetImage.alt = target;
+    targetImage.classList.add(target);
+    hole.appendChild(targetImage);
 
-    updateGameElements();
-
-    // Only update the game elements if the timer is not 0
-    if (timer > 0) {
-      requestAnimationFrame(gameLoop);
-    } else {
-      gameOver();
-    }
-  }
-
-  function updateGameElements() {
-    moles.forEach(function (mole) {
-      if (Math.random() < molesAppearanceProbability) {
-        mole.style.display = "block"; // Show the mole
-      } else {
-        mole.style.display = "none"; // Hide the mole
-      }
-    });
-
-    potatoes.forEach(function (potato) {
-      if (Math.random() < potatoesAppearanceProbability) {
-        potato.style.display = "block"; // Show the potato
-      } else {
-        potato.style.display = "none"; // Hide the potato
-      }
-    });
-
-    carrots.forEach(function (carrot) {
-      if (Math.random() < carrotsAppearanceProbability) {
-        carrot.style.display = "block"; // Show the carrot
-      } else {
-        carrot.style.display = "none"; // Hide the carrot
-      }
-    });
-  }
-
-  [moles, potatoes, carrots].forEach(function (elements) {
-    elements.forEach(function (element) {
-      element.addEventListener("click", function () {
-        if (element.style.display === "block") {
-          if (elements === potatoes || elements === carrots) {
-            timer -= 3;
-            if (timer < 0) {
-              timer = 0;
-            }
-            timerDisplay.textContent = "Time: " + timer;
-          } else if (elements === moles) {
-            score += 5;
-            scoreDisplay.textContent = "Score: " + score;
-          }
-          element.style.display = "none";
-        }
-      });
-    });
+    hole.addEventListener("click", whackTarget);
   });
+}
 
-  function gameOver() {
-    alert("Game Over! Final score is " + score);
+function gameLoop() {
+  createRandomHoles(); // Create new targets
+  setTimeout(hideTargets, moleSpeed); // Hide the targets after 'moleSpeed' milliseconds
+}
+
+function hideTargets() {
+  const targets = document.querySelectorAll("img.mole, img.carrot, img.potato");
+  targets.forEach((target) => {
+    target.style.visibility = "hidden"; // Hide the targets
+  });
+  setTimeout(gameLoop, moleSpeed); // Show new targets after 'moleSpeed' milliseconds
+}
+
+function whackTarget(event) {
+  if (isGameRunning) {
+    const content = event.target.classList;
+    if (
+      content.contains("mole") ||
+      content.contains("carrot") ||
+      content.contains("potato")
+    ) {
+      event.target.style.visibility = "hidden"; // Hide the clicked element
+      if (content.contains("mole")) {
+        score += 5; // Increase score for moles only
+      }
+      document.getElementById("score").textContent = "Score: " + score;
+    }
   }
-});
+}
+
+function decreaseMoleSpeed() {
+  if (moleSpeed > maxMoleSpeed) {
+    moleSpeed -= speedDecreaseAmount;
+    setTimeout(decreaseMoleSpeed, speedDecreaseInterval * 1000);
+  }
+}
+
+// Start button is initially visible
+document.getElementById("end-button").style.display = "none";
