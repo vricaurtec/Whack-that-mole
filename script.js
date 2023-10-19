@@ -2,10 +2,10 @@ let score = 0;
 let timeLeft = 60;
 let gameTimer;
 let isGameRunning = false;
-let moleSpeed = 1300; // Initial speed (1.5 seconds)
-const maxMoleSpeed = 500; // Fastest speed (0.5 seconds)
-const speedDecreaseInterval = 12; // Decrease speed every 10 seconds
-const speedDecreaseAmount = 100; // Speed decreases by 100 milliseconds
+let moleSpeed = 1300; // Initial speed (1.3seconds)
+const maxMoleSpeed = 300; // Fastest speed (0.3 seconds)
+const speedDecreaseInterval = 11; // Decrease speed every 11 seconds
+const speedDecreaseAmount = 200; // Speed decreases by 200 milliseconds
 
 document.getElementById("start-button").addEventListener("click", startGame);
 document.getElementById("end-button").addEventListener("click", endGame);
@@ -17,9 +17,9 @@ function startGame() {
     document.getElementById("end-button").style.display = "block";
 
     gameTimer = setInterval(updateTimer, 1000);
-    gameLoop(); // Start the game loop for continuous appearance and disappearance
+    gameLoop();
 
-    decreaseMoleSpeed(); // Start decreasing mole speed over time
+    decreaseMoleSpeed();
   }
 }
 
@@ -58,12 +58,11 @@ function createRandomTarget() {
 function createRandomHoles() {
   const moleHoles = document.querySelectorAll(".hole");
   moleHoles.forEach((hole) => {
-    hole.textContent = ""; // Clear previous contents
+    hole.textContent = "";
 
     const target = createRandomTarget();
     const targetImage = document.createElement("img");
 
-    // Set the image source based on the target type
     switch (target) {
       case "mole":
         targetImage.src = "mole.png/mole.png";
@@ -85,16 +84,16 @@ function createRandomHoles() {
 }
 
 function gameLoop() {
-  createRandomHoles(); // Create new targets
-  setTimeout(hideTargets, moleSpeed); // Hide the targets after 'moleSpeed' milliseconds
+  createRandomHoles();
+  setTimeout(hideTargets, moleSpeed);
 }
 
 function hideTargets() {
   const targets = document.querySelectorAll("img.mole, img.carrot, img.potato");
   targets.forEach((target) => {
-    target.style.visibility = "hidden"; // Hide the targets
+    target.style.visibility = "hidden";
   });
-  setTimeout(gameLoop, moleSpeed); // Show new targets after 'moleSpeed' milliseconds
+  setTimeout(gameLoop, moleSpeed);
 }
 
 function whackTarget(event) {
@@ -105,9 +104,9 @@ function whackTarget(event) {
       content.contains("carrot") ||
       content.contains("potato")
     ) {
-      event.target.style.visibility = "hidden"; // Hide the clicked element
+      event.target.style.visibility = "hidden";
       if (content.contains("mole")) {
-        score += 5; // Increase score for moles only
+        score += 5;
       }
       document.getElementById("score").textContent = "Score: " + score;
     }
@@ -121,5 +120,4 @@ function decreaseMoleSpeed() {
   }
 }
 
-// Start button is initially visible
 document.getElementById("end-button").style.display = "block";
